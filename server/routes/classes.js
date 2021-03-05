@@ -3,7 +3,7 @@ import Classes from "../models/classes.js";
 
 const router = Router();
 
-router.get("/api/class", async (req, res) => {
+router.get("/api/classes", async (req, res) => {
   try {
     const classes = await Classes.findAll();
     res.json({
@@ -19,7 +19,7 @@ router.get("/api/class", async (req, res) => {
   }
 });
 
-router.get("/api/class/:id", async (req, res) => {
+router.get("/api/classes/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const subject = await Classes.findByPk(id);
@@ -37,7 +37,7 @@ router.get("/api/class/:id", async (req, res) => {
   }
 });
 
-router.post("/api/class", async (req, res) => {
+router.post("/api/classes", async (req, res) => {
   try {
     const { name } = req.body;
 

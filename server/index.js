@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 
 import sequelize from "./sequelize.js";
 import studentRoutes from "./routes/students.js";
@@ -19,6 +20,9 @@ const APP_PORT = 4000;
     const app = express();
     // remove x-powered-by header from headers
     app.disable("x-powered-by");
+
+    // enable cors
+    app.use(cors());
 
     // json requests handling
     app.use(express.json());

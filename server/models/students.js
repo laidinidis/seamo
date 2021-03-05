@@ -8,6 +8,11 @@ const Students = sequelize.define(
       type: Sequelize.STRING,
       allowNull: false,
     },
+    deleted: {
+      type: Sequelize.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     timestamps: false,

@@ -3,9 +3,11 @@ import Students from "../models/students.js";
 
 const router = Router();
 
-router.get("/api/student", async (req, res) => {
+router.get("/api/students", async (req, res) => {
   try {
-    const students = await Students.findAll();
+    const students = await Students.findAll({
+      where: { deleted: false },
+    });
     res.json({
       message: "Success",
       data: students,
@@ -19,7 +21,7 @@ router.get("/api/student", async (req, res) => {
   }
 });
 
-router.get("/api/student/:id", async (req, res) => {
+router.get("/api/students/:id", async (req, res) => {
   try {
     const { id } = req.params;
     const student = await Students.findByPk(id);
@@ -37,7 +39,7 @@ router.get("/api/student/:id", async (req, res) => {
   }
 });
 
-router.post("/api/student", async (req, res) => {
+router.post("/api/students", async (req, res) => {
   try {
     const { name } = req.body;
 
@@ -46,6 +48,45 @@ router.post("/api/student", async (req, res) => {
     res.json({
       message: "Student created",
       data: student,
+    });
+  } catch (error) {
+    res.status(400);
+    res.json({
+      message: "An error occurred",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/api/students/delete/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Students.update({ deleted: true }, { where: { id } });
+
+    res.json({
+      message: "Student deleted",
+      data: deleted,
+    });
+  } catch (error) {
+    res.status(400);
+    res.json({
+      message: "An error occurred",
+      error: error.message,
+    });
+  }
+});
+
+router.post("/api/students/restore/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Students.update(
+      { deleted: false },
+      { where: { id } }
+    );
+
+    res.json({
+      message: "Student restored",
+      data: deleted,
     });
   } catch (error) {
     res.status(400);
