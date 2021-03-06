@@ -1,16 +1,21 @@
 import { Router } from "express";
 import Grades from "../models/grades.js";
+import Students from "../models/students.js";
+import Classes from "../models/classes.js";
 
 const router = Router();
 
 router.get("/api/grades", async (req, res) => {
   try {
-    const grades = await Grades.findAll();
+    const grades = await Grades.findAll({
+      include: [Students, Classes],
+    });
     res.json({
       message: "Success",
       data: grades,
     });
   } catch (error) {
+    console.log(error);
     res.status(400);
     res.json({
       message: "An error occurred",

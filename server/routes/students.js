@@ -41,9 +41,11 @@ router.get("/api/students/:id", async (req, res) => {
 
 router.post("/api/students", async (req, res) => {
   try {
-    const { name } = req.body;
+    const { name, birthdate } = req.body;
 
-    const student = await Students.create({ name });
+    console.log({ name, birthdate });
+
+    const student = await Students.create({ name, birthdate });
 
     res.json({
       message: "Student created",

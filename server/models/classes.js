@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import sequelize from "../sequelize.js";
 
 const Classes = sequelize.define(
-  "Classes",
+  "classes",
   {
     name: {
       type: Sequelize.STRING,

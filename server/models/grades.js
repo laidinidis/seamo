@@ -1,8 +1,11 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../sequelize.js";
 
+import Students from "./students.js";
+import Classes from "./classes.js";
+
 const Grades = sequelize.define(
-  "Grades",
+  "grades",
   {
     year: {
       type: Sequelize.INTEGER,
@@ -16,18 +19,16 @@ const Grades = sequelize.define(
       type: Sequelize.INTEGER,
       allowNull: false,
     },
-    studentId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
-    classId: {
-      type: Sequelize.INTEGER,
-      allowNull: false,
-    },
   },
   {
     timestamps: false,
   }
 );
+
+Students.hasMany(Grades);
+Grades.belongsTo(Students);
+
+Classes.hasMany(Grades);
+Grades.belongsTo(Classes);
 
 export default Grades;

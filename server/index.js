@@ -11,7 +11,7 @@ const APP_PORT = 4000;
 (async () => {
   try {
     try {
-      await sequelize.sync();
+      await sequelize.sync({ force: false });
       console.log("Connected to db");
     } catch (error) {
       console.error("Unable to connect to the database:", error);

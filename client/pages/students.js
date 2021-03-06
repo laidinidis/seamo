@@ -6,6 +6,8 @@ import {
 } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getStudents, createStudent, deleteStudent } from '../api/students';
+
+import Layout from '../components/layout/layout';
 import CreateStudentForm from '../components/students/createUserForm';
 
 function Students() {
@@ -41,8 +43,8 @@ function Students() {
   }
 
   return (
-    <div>
-      <h2>Students</h2>
+    <Layout title="Students">
+      <h1 className="text-4xl mb-4">Students</h1>
       {data && (
         <ul>
           {data.map((student) => (
@@ -56,7 +58,7 @@ function Students() {
       <div>
         <CreateStudentForm onSubmit={onCreateUser} />
       </div>
-    </div>
+    </Layout>
   );
 }
 
