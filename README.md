@@ -1,8 +1,14 @@
 # Readme
 
-## 1. Database
+## 1. Database (Dockerized)
 
 run `docker-compose up -d` in the roor directory to create the postgres and pgAdmin containers
+
+to import the db file run `docker cp seamo.sql postgres_container:/seamo.sql` to copy the file to the container
+
+and then `docker exec -i postgres_container psql -U admin postgres < seamo.sql`
+
+to export the data run `docker exec -it postgres_container pg_dump -U admin -h localhost postgres >> seamo.sql`
 
 ## 2. Server (Node.js)
 
