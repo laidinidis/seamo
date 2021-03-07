@@ -3,11 +3,25 @@ import Icon from '../icons/icon';
 
 function Navigation() {
   return (
-    <nav className="w-80 bg-white">
+    <nav className="w-80 bg-white border-r border-gray-200">
       <ul>
         <NavLink href="/" name="Grades" icon="home" />
         <NavLink href="/students" name="Students" icon="student" />
-        <NavLink href="/stats" name="Statistics" icon="chart" />
+        <NavLink
+          href="/statsperstudent"
+          name="Statistics per student"
+          icon="chart"
+        />
+        <NavLink
+          href="/statsperclass"
+          name="Statistics per class"
+          icon="chart"
+        />
+        <NavLink
+          href="/statsperperiod"
+          name="Statistics per period"
+          icon="chart"
+        />
       </ul>
     </nav>
   );

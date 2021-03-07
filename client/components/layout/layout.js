@@ -12,7 +12,7 @@ function Layout({ children, title }) {
       </Head>
       <div className="h-screen flex bg-gray-100">
         <Navigation />
-        <section className="flex-1">
+        <section className="flex-1 flex flex-col">
           <header className="flex p-4">
             <div className="flex-1"></div>
             <div className="flex">
@@ -24,7 +24,7 @@ function Layout({ children, title }) {
               </div>
             </div>
           </header>
-          <main className="px-4">{children}</main>
+          <main className="px-8 flex-1 overflow-hidden">{children}</main>
         </section>
       </div>
     </>

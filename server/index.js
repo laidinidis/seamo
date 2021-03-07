@@ -5,6 +5,7 @@ import sequelize from "./sequelize.js";
 import studentRoutes from "./routes/students.js";
 import classesRoutes from "./routes/classes.js";
 import gradesRoutes from "./routes/grades.js";
+import statsRoutes from "./routes/stats.js";
 
 const APP_PORT = 4000;
 
@@ -31,6 +32,7 @@ const APP_PORT = 4000;
     app.use(studentRoutes);
     app.use(classesRoutes);
     app.use(gradesRoutes);
+    app.use(statsRoutes);
 
     app.listen(APP_PORT, () => {
       console.log(`App listening http://localhost:${APP_PORT}`);

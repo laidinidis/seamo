@@ -1,21 +1,26 @@
 import React, { useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import ReactSelect from 'react-select';
-import {
-  QueryClient,
-  useQuery,
-  useMutation,
-  useQueryClient
-} from 'react-query';
+import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { getStudents } from '../../api/students';
 import { getClasses } from '../../api/classes';
 import { addGrades } from '../../api/grades';
 
 const years = [
+  { label: 2009, value: 2009 },
+  { label: 2010, value: 2010 },
+  { label: 2011, value: 2011 },
+  { label: 2012, value: 2012 },
+  { label: 2013, value: 2013 },
+  { label: 2014, value: 2014 },
+  { label: 2015, value: 2015 },
+  { label: 2016, value: 2016 },
+  { label: 2017, value: 2017 },
+  { label: 2018, value: 2018 },
+  { label: 2019, value: 2019 },
   { label: 2020, value: 2020 },
-  { label: 2021, value: 2021 },
-  { label: 2022, value: 2022 }
+  { label: 2021, value: 2021 }
 ];
 const quarters = [
   { label: 1, value: 1 },
@@ -49,6 +54,8 @@ export default function AddGradesForm() {
   const addGradesMutation = useMutation(addGrades, {
     onSuccess: (newGrades) => {
       queryClient.setQueryData(['grades', { id: newGrades.id }], newGrades);
+
+      queryClient.invalidateQueries('grades');
     }
   });
 
@@ -70,7 +77,7 @@ export default function AddGradesForm() {
       studentId: student.value,
       classId: subject.value
     });
-    reset(defaultValues);
+    // reset(defaultValues);
   }
 
   return (
