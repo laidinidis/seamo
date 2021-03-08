@@ -6,10 +6,7 @@ const router = Router();
 router.get("/api/classes", async (req, res) => {
   try {
     const classes = await Classes.findAll();
-    res.json({
-      message: "Success",
-      data: classes,
-    });
+    res.json(classes);
   } catch (error) {
     res.status(400);
     res.json({
@@ -24,10 +21,7 @@ router.get("/api/classes/:id", async (req, res) => {
     const { id } = req.params;
     const subject = await Classes.findByPk(id);
 
-    res.json({
-      message: "Success",
-      data: subject,
-    });
+    res.json(subject);
   } catch (error) {
     res.status(400);
     res.json({
@@ -43,10 +37,7 @@ router.post("/api/classes", async (req, res) => {
 
     const subject = await Classes.create({ name });
 
-    res.json({
-      message: "Class created",
-      data: subject,
-    });
+    res.json(subject);
   } catch (error) {
     res.status(400);
     res.json({

@@ -10,12 +10,8 @@ router.get("/api/grades", async (req, res) => {
     const grades = await Grades.findAll({
       include: [Students, Classes],
     });
-    res.json({
-      message: "Success",
-      data: grades,
-    });
+    res.json(grades);
   } catch (error) {
-    console.log(error);
     res.status(400);
     res.json({
       message: "An error occurred",
@@ -29,10 +25,7 @@ router.get("/api/grades/:id", async (req, res) => {
     const { id } = req.params;
     const grades = await Grades.findByPk(id);
 
-    res.json({
-      message: "Success",
-      data: grades,
-    });
+    res.json(grades);
   } catch (error) {
     res.status(400);
     res.json({
@@ -54,10 +47,7 @@ router.post("/api/grades", async (req, res) => {
       classId,
     });
 
-    res.json({
-      message: "Grades created",
-      data: grades,
-    });
+    res.json(grades);
   } catch (error) {
     res.status(400);
     res.json({

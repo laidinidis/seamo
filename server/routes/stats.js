@@ -42,12 +42,8 @@ router.get("/api/statistics/student/:id", async (req, res) => {
 
     stats.sort((a, b) => (a.key > b.key ? 1 : -1));
 
-    res.json({
-      message: "Success",
-      data: stats,
-    });
+    res.json(stats);
   } catch (error) {
-    console.log(error);
     res.status(400);
     res.json({
       message: "An error occurred",
@@ -94,12 +90,8 @@ router.get("/api/statistics/class/:id", async (req, res) => {
 
     stats.sort((a, b) => (a.key > b.key ? 1 : -1));
 
-    res.json({
-      message: "Success",
-      data: stats,
-    });
+    res.json(stats);
   } catch (error) {
-    console.log(error);
     res.status(400);
     res.json({
       message: "An error occurred",
@@ -145,12 +137,8 @@ router.get("/api/statistics/period", async (req, res) => {
         avg: (x.sum / x.count).toFixed(1),
       }));
 
-    res.json({
-      message: "Success",
-      data: stats,
-    });
+    res.json(stats);
   } catch (error) {
-    console.log(error);
     res.status(400);
     res.json({
       message: "An error occurred",

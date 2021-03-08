@@ -2,14 +2,12 @@ import { BASE_URL } from './config';
 
 export async function getStudents() {
   const res = await fetch(`${BASE_URL}/api/students`);
-  const { data } = await res.json();
-  return data;
+  return res.json();
 }
 
 export async function getStudent(id) {
   const res = await fetch(`${BASE_URL}/api/students/${id}`);
-  const { data } = await res.json();
-  return data;
+  return res.json();
 }
 
 export async function createStudent(student) {
@@ -21,8 +19,7 @@ export async function createStudent(student) {
     body: JSON.stringify(student)
   });
 
-  const { data } = await res.json();
-  return data;
+  return res.json();
 }
 
 export async function deleteStudent(id) {
@@ -33,6 +30,5 @@ export async function deleteStudent(id) {
     }
   });
 
-  const { data } = await res.json();
-  return data;
+  return res.json();
 }

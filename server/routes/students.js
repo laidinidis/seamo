@@ -8,10 +8,7 @@ router.get("/api/students", async (req, res) => {
     const students = await Students.findAll({
       where: { deleted: false },
     });
-    res.json({
-      message: "Success",
-      data: students,
-    });
+    res.json(students);
   } catch (error) {
     res.status(400);
     res.json({
@@ -26,10 +23,7 @@ router.get("/api/students/:id", async (req, res) => {
     const { id } = req.params;
     const student = await Students.findByPk(id);
 
-    res.json({
-      message: "Success",
-      data: student,
-    });
+    res.json(student);
   } catch (error) {
     res.status(400);
     res.json({
@@ -45,10 +39,7 @@ router.post("/api/students", async (req, res) => {
 
     const student = await Students.create({ name, birthdate });
 
-    res.json({
-      message: "Student created",
-      data: student,
-    });
+    res.json(student);
   } catch (error) {
     res.status(400);
     res.json({
@@ -63,10 +54,7 @@ router.post("/api/students/delete/:id", async (req, res) => {
     const { id } = req.params;
     const deleted = await Students.update({ deleted: true }, { where: { id } });
 
-    res.json({
-      message: "Student deleted",
-      data: deleted,
-    });
+    res.json(deleted);
   } catch (error) {
     res.status(400);
     res.json({
@@ -84,10 +72,7 @@ router.post("/api/students/restore/:id", async (req, res) => {
       { where: { id } }
     );
 
-    res.json({
-      message: "Student restored",
-      data: deleted,
-    });
+    res.json(deleted);
   } catch (error) {
     res.status(400);
     res.json({
