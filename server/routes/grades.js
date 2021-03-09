@@ -1,14 +1,14 @@
 import { Router } from "express";
 import Grades from "../models/grades.js";
 import Students from "../models/students.js";
-import Classes from "../models/classes.js";
+import Subjects from "../models/subjects.js";
 
 const router = Router();
 
 router.get("/api/grades", async (req, res) => {
   try {
     const grades = await Grades.findAll({
-      include: [Students, Classes],
+      include: [Students, Subjects],
     });
     res.json(grades);
   } catch (error) {
@@ -37,14 +37,14 @@ router.get("/api/grades/:id", async (req, res) => {
 
 router.post("/api/grades", async (req, res) => {
   try {
-    const { year, quarter, grade, studentId, classId } = req.body;
+    const { year, quarter, grade, studentId, subjectId } = req.body;
 
     const grades = await Grades.create({
       year,
       quarter,
       grade,
       studentId,
-      classId,
+      subjectId,
     });
 
     res.json(grades);

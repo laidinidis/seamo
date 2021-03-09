@@ -19,15 +19,15 @@ class Student(StudentBase):
         orm_mode = True
 
 
-class ClassesBase(BaseModel):
+class SubjectsBase(BaseModel):
     name: str
 
 
-class ClassesCreate(ClassesBase):
+class SubjectsCreate(SubjectsBase):
     pass
 
 
-class Classes(ClassesBase):
+class Subjects(SubjectsBase):
     id: int
 
     class Config:
@@ -41,13 +41,14 @@ class GradesBase(BaseModel):
 
 
 class GradesCreate(GradesBase):
-    pass
+    studentId: int
+    subjectId: int
 
 
 class Grades(GradesBase):
     id: int
-    studentId: int
-    classId: int
+    student: Student
+    subject: Subjects
 
     class Config:
         orm_mode = True

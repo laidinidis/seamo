@@ -12,8 +12,8 @@ import {
 import ReactSelect from 'react-select';
 
 import Layout from '../components/layout/layout';
-import { getClassStats } from '../api/stats';
-import { getClasses } from '../api/classes';
+import { getSubjectStats } from '../api/stats';
+import { getSubjects } from '../api/subjects';
 
 const reactSelectStyles = {
   control: (provided) => ({
@@ -23,44 +23,46 @@ const reactSelectStyles = {
 };
 
 function Stats() {
-  const [selectedClass, setSelectedClass] = useState(null);
+  const [selectedSubject, setSelectedSubject] = useState(null);
 
-  const { data: classStats } = useQuery(
-    ['stats.classes', selectedClass?.value],
-    () => getClassStats(selectedClass?.value),
-    { enabled: !!selectedClass }
+  const { data: subjectStats } = useQuery(
+    ['stats.subjects', selectedSubject?.value],
+    () => getSubjectStats(selectedSubject?.value),
+    { enabled: !!selectedSubject }
   );
-  const { data: classData } = useQuery('classes', getClasses);
+  const { data: subjectData } = useQuery('subjects', getSubjects);
 
-  const classes = useMemo(
+  const subjects = useMemo(
     () =>
-      classData ? classData.map((s) => ({ value: s.id, label: s.name })) : [],
-    [classData]
+      subjectData
+        ? subjectData.map((s) => ({ value: s.id, label: s.name }))
+        : [],
+    [subjectData]
   );
 
   return (
-    <Layout title="Statistics per class">
-      <h1 className="text-4xl mb-4">Statistics per class</h1>
+    <Layout title="Statistics per subject">
+      <h1 className="text-4xl mb-4">Statistics per subject</h1>
       <div className="flex mb-8">
         <div className="flex-1 max-w-xs">
           <ReactSelect
-            instanceId="class"
+            instanceId="subject"
             styles={reactSelectStyles}
-            options={classes}
+            options={subjects}
             isClearable
-            onChange={setSelectedClass}
-            value={selectedClass}
+            onChange={setSelectedSubject}
+            value={selectedSubject}
           />
         </div>
       </div>
 
       <div className="w-full h-96">
-        {selectedClass && (
-          <h2 className="text-2xl mb-4">{selectedClass.label} average</h2>
+        {selectedSubject && (
+          <h2 className="text-2xl mb-4">{selectedSubject.label} average</h2>
         )}
-        {classStats?.length > 0 ? (
+        {subjectStats?.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={classStats}>
+            <BarChart data={subjectStats}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="label" />
               <YAxis domain={[0, 10]} />

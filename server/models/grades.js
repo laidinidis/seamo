@@ -2,7 +2,7 @@ import { Sequelize } from "sequelize";
 import sequelize from "../sequelize.js";
 
 import Students from "./students.js";
-import Classes from "./classes.js";
+import Subjects from "./subjects.js";
 
 const Grades = sequelize.define(
   "grades",
@@ -28,7 +28,7 @@ const Grades = sequelize.define(
 Students.hasMany(Grades);
 Grades.belongsTo(Students);
 
-Classes.hasMany(Grades);
-Grades.belongsTo(Classes);
+Subjects.hasMany(Grades);
+Grades.belongsTo(Subjects);
 
 export default Grades;

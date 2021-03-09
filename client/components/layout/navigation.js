@@ -13,8 +13,8 @@ function Navigation() {
           icon="chart"
         />
         <NavLink
-          href="/statsperclass"
-          name="Statistics per class"
+          href="/statspersubject"
+          name="Statistics per subject"
           icon="chart"
         />
         <NavLink

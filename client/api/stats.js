@@ -5,8 +5,8 @@ export async function getStudentStats(id) {
   return res.json();
 }
 
-export async function getClassStats(id) {
-  const res = await fetch(`${BASE_URL}/api/statistics/class/${id}`);
+export async function getSubjectStats(id) {
+  const res = await fetch(`${BASE_URL}/api/statistics/subject/${id}`);
   return res.json();
 }
 export async function getPeriodStats(year, quarter) {

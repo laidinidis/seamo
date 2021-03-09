@@ -3,7 +3,7 @@ import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import Layout from '../components/layout/layout';
 import { getStudents } from '../api/students';
-import { getClasses } from '../api/classes';
+import { getSubjects } from '../api/subjects';
 import AddGradesForm from '../components/grades/addGradesForm';
 import { getGrades } from '../api/grades';
 
@@ -37,7 +37,7 @@ function Grades() {
                       <th
                         scope="col"
                         className="px-6 py-3 text-left text-xs font-medium bg-gray-50 text-gray-500 uppercase tracking-wider sticky top-0">
-                        Class
+                        Subject
                       </th>
                       <th
                         scope="col"
@@ -57,7 +57,7 @@ function Grades() {
                             {g.year} - Q{g.quarter}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
-                            {g.class.name}
+                            {g.subject.name}
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             {g.grade}
@@ -80,7 +80,7 @@ export async function getServerSideProps() {
 
   await Promise.all([
     queryClient.prefetchQuery('students', getStudents),
-    queryClient.prefetchQuery('classes', getClasses)
+    queryClient.prefetchQuery('subjects', getSubjects)
   ]);
 
   return {

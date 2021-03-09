@@ -12,16 +12,12 @@ class Students(Base):
     birthdate = Column(DateTime)
     deleted = Column(Boolean, default=False)
 
-    # grades = relationship("Grades", back_populates="student")
 
-
-class Classes(Base):
-    __tablename__ = "classes"
+class Subjects(Base):
+    __tablename__ = "subjects"
 
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, index=True)
-
-    # grades = relationship("Grades", back_populates="subject")
 
 
 class Grades(Base):
@@ -32,9 +28,7 @@ class Grades(Base):
     quarter = Column(Integer)
     grade = Column(Integer)
     studentId = Column(Integer, ForeignKey("students.id"))
-    classId = Column(Integer, ForeignKey("classes.id"))
+    subjectId = Column(Integer, ForeignKey("subjects.id"))
 
-    # student = relationship("Students", back_populates="owner")
-    # subject = relationship("Classes", back_populates="owner")
-    student = relationship("Students")
-    subject = relationship("Classes")
+    student = relationship("Students", lazy='joined')
+    subject = relationship("Subjects", lazy='joined')

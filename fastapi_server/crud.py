@@ -3,35 +3,42 @@ from sqlalchemy.orm import Session
 from . import models, schemas
 
 
-# def get_user(db: Session, user_id: int):
-#     return db.query(models.User).filter(models.User.id == user_id).first()
-
-
-# def get_user_by_email(db: Session, email: str):
-#     return db.query(models.User).filter(models.User.email == email).first()
+def get_student_by_name(db: Session, name: str):
+    return db.query(models.Students).filter(models.Students.name == name).first()
 
 
 def get_students(db: Session):
-    return db.query(models.Students).all()
+    return db.query(models.Students).filter(models.Students.deleted == False).all()
 
 
-# def create_user(db: Session, user: schemas.UserCreate):
-#     fake_hashed_password = user.password + "notreallyhashed"
-#     db_user = models.User(
-#         email=user.email, hashed_password=fake_hashed_password)
-#     db.add(db_user)
-#     db.commit()
-#     db.refresh(db_user)
-#     return db_user
+def create_student(db: Session, student: schemas.StudentCreate):
+    db_student = models.Students(
+        name=student.name, birthdate=student.birthdate)
+    db.add(db_student)
+    db.commit()
+    db.refresh(db_student)
+    return db_student
 
 
-# def get_items(db: Session, skip: int = 0, limit: int = 100):
-#     return db.query(models.Item).offset(skip).limit(limit).all()
+def delete_student(db: Session, id: int):
+    deleted = db.query(models.Students).filter(
+        models.Students.id == id).update({models.Students.deleted: True})
+    db.commit()
+    return deleted
 
 
-# def create_user_item(db: Session, item: schemas.ItemCreate, user_id: int):
-#     db_item = models.Item(**item.dict(), owner_id=user_id)
-#     db.add(db_item)
-#     db.commit()
-#     db.refresh(db_item)
-#     return db_item
+def get_subjects(db: Session):
+    return db.query(models.Subjects).all()
+
+
+def get_grades(db: Session):
+    return db.query(models.Grades).all()
+
+
+def create_grade(db: Session, grade: schemas.GradesCreate):
+    db_grade = models.Grades(
+        year=grade.year, quarter=grade.quarter, grade=grade.grade, studentId=grade.studentId, subjectId=grade.subjectId)
+    db.add(db_grade)
+    db.commit()
+    db.refresh(db_grade)
+    return db_grade

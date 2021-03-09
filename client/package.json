@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "fastapi": "NEXT_PUBLIC_BACKEND_API=fastapi npm run dev"
   },
   "dependencies": {
     "next": "10.0.7",

@@ -4,7 +4,7 @@ import ReactSelect from 'react-select';
 import { useQuery, useMutation, useQueryClient } from 'react-query';
 
 import { getStudents } from '../../api/students';
-import { getClasses } from '../../api/classes';
+import { getSubjects } from '../../api/subjects';
 import { addGrades } from '../../api/grades';
 
 const years = [
@@ -33,7 +33,7 @@ const defaultValues = {
   student: null,
   year: null,
   quarter: null,
-  class: null,
+  subject: null,
   grade: null
 };
 
@@ -49,7 +49,7 @@ export default function AddGradesForm() {
   const { register, handleSubmit, reset, control } = useForm({ defaultValues });
 
   const { data: studentsData } = useQuery('students', getStudents);
-  const { data: classesData } = useQuery('classes', getClasses);
+  const { data: subjectsData } = useQuery('subjects', getSubjects);
 
   const addGradesMutation = useMutation(addGrades, {
     onSuccess: (newGrades) => {
@@ -64,18 +64,18 @@ export default function AddGradesForm() {
     [studentsData]
   );
 
-  const classes = useMemo(
-    () => classesData.map((c) => ({ value: c.id, label: c.name })),
-    [classesData]
+  const subjects = useMemo(
+    () => subjectsData.map((c) => ({ value: c.id, label: c.name })),
+    [subjectsData]
   );
 
-  function onAddGrade({ year, quarter, grade, student, class: subject }) {
+  function onAddGrade({ year, quarter, grade, student, subject }) {
     addGradesMutation.mutate({
       year: year.value,
       quarter: quarter.value,
       grade: Number(grade),
       studentId: student.value,
-      classId: subject.value
+      subjectId: subject.value
     });
     // reset(defaultValues);
   }
@@ -139,15 +139,15 @@ export default function AddGradesForm() {
         />
       </div>
       <div className="">
-        <label htmlFor="class">Class</label>
+        <label htmlFor="subject">Subject</label>
         <Controller
-          name="class"
+          name="subject"
           control={control}
           render={({ onChange, onBlur, value }) => (
             <ReactSelect
-              instanceId="class"
+              instanceId="subject"
               styles={reactSelectStyles}
-              options={classes}
+              options={subjects}
               isClearable
               onChange={onChange}
               onBlur={onBlur}

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Grades from "../models/grades.js";
-import Classes from "../models/classes.js";
+import Subjects from "../models/subjects.js";
 
 const router = Router();
 
@@ -52,12 +52,12 @@ router.get("/api/statistics/student/:id", async (req, res) => {
   }
 });
 
-router.get("/api/statistics/class/:id", async (req, res) => {
+router.get("/api/statistics/subject/:id", async (req, res) => {
   try {
     const { id } = req.params;
 
     const grades = await Grades.findAll({
-      where: { classId: id },
+      where: { subjectId: id },
     });
 
     const stats = grades
@@ -106,25 +106,25 @@ router.get("/api/statistics/period", async (req, res) => {
 
     const grades = await Grades.findAll({
       where: { year, quarter },
-      include: [Classes],
+      include: [Subjects],
     });
 
     const stats = grades
       .reduce((acc, cur) => {
-        const key = cur.classId;
+        const key = cur.subjectId;
         const index = acc.findIndex((x) => x.key === key);
 
         if (index >= 0) {
           acc[index] = {
             key,
-            label: cur.class.name,
+            label: cur.subject.name,
             sum: acc[index].sum + cur.grade,
             count: acc[index].count + 1,
           };
         } else {
           acc.push({
             key,
-            label: cur.class.name,
+            label: cur.subject.name,
             sum: cur.grade,
             count: 1,
           });

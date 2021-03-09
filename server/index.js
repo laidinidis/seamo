@@ -3,7 +3,7 @@ import cors from "cors";
 
 import sequelize from "./sequelize.js";
 import studentRoutes from "./routes/students.js";
-import classesRoutes from "./routes/classes.js";
+import subjectsRoutes from "./routes/subjects.js";
 import gradesRoutes from "./routes/grades.js";
 import statsRoutes from "./routes/stats.js";
 
@@ -30,7 +30,7 @@ const APP_PORT = 4000;
 
     // routes
     app.use(studentRoutes);
-    app.use(classesRoutes);
+    app.use(subjectsRoutes);
     app.use(gradesRoutes);
     app.use(statsRoutes);
 

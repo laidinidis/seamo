@@ -1,8 +1,8 @@
 import { Sequelize } from "sequelize";
 import sequelize from "../sequelize.js";
 
-const Classes = sequelize.define(
-  "classes",
+const Subjects = sequelize.define(
+  "subjects",
   {
     name: {
       type: Sequelize.STRING,
@@ -14,4 +14,4 @@ const Classes = sequelize.define(
   }
 );
 
-export default Classes;
+export default Subjects;

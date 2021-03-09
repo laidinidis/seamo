@@ -1,12 +1,12 @@
 import { Router } from "express";
-import Classes from "../models/classes.js";
+import Subjects from "../models/subjects.js";
 
 const router = Router();
 
-router.get("/api/classes", async (req, res) => {
+router.get("/api/subjects", async (req, res) => {
   try {
-    const classes = await Classes.findAll();
-    res.json(classes);
+    const subjects = await Subjects.findAll();
+    res.json(subjects);
   } catch (error) {
     res.status(400);
     res.json({
@@ -16,10 +16,10 @@ router.get("/api/classes", async (req, res) => {
   }
 });
 
-router.get("/api/classes/:id", async (req, res) => {
+router.get("/api/subjects/:id", async (req, res) => {
   try {
     const { id } = req.params;
-    const subject = await Classes.findByPk(id);
+    const subject = await Subjects.findByPk(id);
 
     res.json(subject);
   } catch (error) {
@@ -31,11 +31,11 @@ router.get("/api/classes/:id", async (req, res) => {
   }
 });
 
-router.post("/api/classes", async (req, res) => {
+router.post("/api/subjects", async (req, res) => {
   try {
     const { name } = req.body;
 
-    const subject = await Classes.create({ name });
+    const subject = await Subjects.create({ name });
 
     res.json(subject);
   } catch (error) {
