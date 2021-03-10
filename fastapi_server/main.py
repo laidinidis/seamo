@@ -12,7 +12,7 @@ from .database import SessionLocal, engine
 app = FastAPI()
 
 origins = [
-    "http://localhost:3000",
+    "*"
 ]
 
 app.add_middleware(
@@ -31,6 +31,10 @@ def get_db():
         yield db
     finally:
         db.close()
+
+
+def sort_by_key(s):
+    return s["key"]
 
 
 @app.get("/")
@@ -72,3 +76,102 @@ def read_grades(db: Session = Depends(get_db)):
 @app.post("/api/grades/", response_model=schemas.Grades)
 def create_grade(grade: schemas.GradesCreate, db: Session = Depends(get_db)):
     return crud.create_grade(db=db, grade=grade)
+
+
+@app.get("/api/statistics/student/{student_id}/", response_model=List[schemas.Statistics])
+def read_student_stats(student_id: int, db: Session = Depends(get_db)):
+    grades = crud.get_student_stats(db, student_id=student_id)
+
+    sums = {}
+    for g in grades:
+        key = str(g.year) + "_" + str(g.quarter)
+        value = sums.get(key)
+        if(value):
+            sums[key] = {
+                "sum": value["sum"] + g.grade,
+                "count": value["count"] + 1,
+                "label": value["label"]
+            }
+        else:
+            sums[key] = {
+                "sum": g.grade,
+                "count": 1,
+                "label": str(g.year) + " - Q" + str(g.quarter)
+            }
+    stats = []
+    for key in sums:
+        stats.append({
+            "key": key,
+            "label": sums[key]["label"],
+            "avg": round(sums[key]["sum"] / sums[key]["count"], 1)
+        })
+
+    stats.sort(key=sort_by_key)
+
+    return stats
+
+
+@app.get("/api/statistics/subject/{subject_id}/", response_model=List[schemas.Statistics])
+def read_subject_stats(subject_id: int, db: Session = Depends(get_db)):
+    grades = crud.get_subject_stats(db, subject_id=subject_id)
+
+    sums = {}
+    for g in grades:
+        key = str(g.year) + "_" + str(g.quarter)
+        value = sums.get(key)
+        if(value):
+            sums[key] = {
+                "sum": value["sum"] + g.grade,
+                "count": value["count"] + 1,
+                "label": value["label"]
+            }
+        else:
+            sums[key] = {
+                "sum": g.grade,
+                "count": 1,
+                "label": str(g.year) + " - Q" + str(g.quarter)
+            }
+    stats = []
+    for key in sums:
+        stats.append({
+            "key": key,
+            "label": sums[key]["label"],
+            "avg": round(sums[key]["sum"] / sums[key]["count"], 1)
+        })
+
+    stats.sort(key=sort_by_key)
+
+    return stats
+
+
+@app.get("/api/statistics/period/", response_model=List[schemas.Statistics])
+def read_subject_stats(year: int, quarter: int, db: Session = Depends(get_db)):
+    grades = crud.get_period_stats(db, year=year, quarter=quarter)
+
+    sums = {}
+    for g in grades:
+        key = str(g.subjectId)
+        value = sums.get(key)
+        if(value):
+            sums[key] = {
+                "sum": value["sum"] + g.grade,
+                "count": value["count"] + 1,
+                "label": value["label"]
+            }
+        else:
+            sums[key] = {
+                "sum": g.grade,
+                "count": 1,
+                "label": g.subject.name
+            }
+    stats = []
+    for key in sums:
+        stats.append({
+            "key": key,
+            "label": sums[key]["label"],
+            "avg": round(sums[key]["sum"] / sums[key]["count"], 1)
+        })
+
+    stats.sort(key=sort_by_key)
+
+    return stats

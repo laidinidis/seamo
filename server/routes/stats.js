@@ -2,6 +2,10 @@ import { Router } from "express";
 import Grades from "../models/grades.js";
 import Subjects from "../models/subjects.js";
 
+const round = (number, decimals = 1) =>
+  Math.round((number + Number.EPSILON) * Math.pow(10, decimals)) /
+  Math.pow(10, decimals);
+
 const router = Router();
 
 router.get("/api/statistics/student/:id", async (req, res) => {
@@ -37,7 +41,7 @@ router.get("/api/statistics/student/:id", async (req, res) => {
       .map((x) => ({
         key: x.key,
         label: x.label,
-        avg: (x.sum / x.count).toFixed(1),
+        avg: round(x.sum / x.count),
       }));
 
     stats.sort((a, b) => (a.key > b.key ? 1 : -1));
@@ -85,7 +89,7 @@ router.get("/api/statistics/subject/:id", async (req, res) => {
       .map((x) => ({
         key: x.key,
         label: x.label,
-        avg: (x.sum / x.count).toFixed(1),
+        avg: round(x.sum / x.count),
       }));
 
     stats.sort((a, b) => (a.key > b.key ? 1 : -1));
@@ -134,7 +138,7 @@ router.get("/api/statistics/period", async (req, res) => {
       .map((x) => ({
         key: x.key,
         label: x.label,
-        avg: (x.sum / x.count).toFixed(1),
+        avg: round(x.sum / x.count),
       }));
 
     res.json(stats);

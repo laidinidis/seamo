@@ -52,3 +52,9 @@ class Grades(GradesBase):
 
     class Config:
         orm_mode = True
+
+
+class Statistics(BaseModel):
+    key: str
+    label: str
+    avg: float

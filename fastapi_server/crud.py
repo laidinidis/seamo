@@ -1,4 +1,7 @@
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
+from sqlalchemy.sql.functions import mode
+
 
 from . import models, schemas
 
@@ -42,3 +45,15 @@ def create_grade(db: Session, grade: schemas.GradesCreate):
     db.commit()
     db.refresh(db_grade)
     return db_grade
+
+
+def get_student_stats(db: Session, student_id: int):
+    return db.query(models.Grades).filter(models.Grades.studentId == student_id).all()
+
+
+def get_subject_stats(db: Session, subject_id: int):
+    return db.query(models.Grades).filter(models.Grades.subjectId == subject_id).all()
+
+
+def get_period_stats(db: Session, year: int, quarter):
+    return db.query(models.Grades).filter(models.Grades.year == year, models.Grades.quarter == quarter).all()
